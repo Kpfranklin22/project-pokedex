@@ -1,4 +1,4 @@
-// DOM Objects
+// DOM Object manipulation with querySelector()
 const mainScreen = document.querySelector('.main-screen');
 const pokeName = document.querySelector('.poke-name');
 const pokeId = document.querySelector('.poke-id');
@@ -12,7 +12,7 @@ const pokeListItems = document.querySelectorAll('.list-item');
 const leftButton = document.querySelector('.left-button');
 const rightButton = document.querySelector('.right-button');
 
-// constants and variables
+// const TYPES is a variable containing the array of all the Pokemon types
 
 const TYPES = [
   'normal',
@@ -35,10 +35,12 @@ const TYPES = [
   'fairy',
 ];
 
+// Allowing the previous or next selection of 20 Pokemon to be null if they don't exist
+
 let prevUrl = 'null';
 let nextUrl = 'null';
 
-// Functions
+// Capitalizes Pokemon names rendered on left screen
 
 const capitalize = (str) => str[0].toUpperCase() + str.substr(1);
 
@@ -49,6 +51,8 @@ const resetScreen = () => {
     mainScreen.classList.remove(type);
   }
 };
+
+// Arrow function that fetches data from API to render the Pokemon names on the right screen
 
 const fetchPokeList = (url) => {
   fetch(url)
@@ -73,6 +77,8 @@ const fetchPokeList = (url) => {
       }
     });
 };
+
+// Arrow function that fetches data from API to render the Pokemon Types and Stats on the left screen
 
 const fetchPokeData = (id) => {
   fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
@@ -102,6 +108,8 @@ const fetchPokeData = (id) => {
     });
 };
 
+// Arrow functions that handle the button clicks for the prev and next buttons
+
 const handleLeftButtonClick = () => {
   if (prevUrl) {
     fetchPokeList(prevUrl);
@@ -123,12 +131,14 @@ const handleListItemClick = (e) => {
   fetchPokeData(id);
 };
 
-// Adding event listeners
+// Event listeners for the prev and next buttons
+
 leftButton.addEventListener('click', handleLeftButtonClick);
 rightButton.addEventListener('click', handleRightButtonClick);
 for (const pokeListItem of pokeListItems) {
   pokeListItem.addEventListener('click', handleListItemClick);
 }
-//initialize app
+
+// Calls function fetchPokeList() to initialize application
 
 fetchPokeList('https://pokeapi.co/api/v2/pokemon?offset=0&limit=20');
